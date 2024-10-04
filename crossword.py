@@ -1,8 +1,8 @@
 from typing import List
-from ut import Vec2D, print_dict_map
+from ut import Vec2D, print_dict_map, dict_map_to_list
 from copy import deepcopy
-import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 class Crossword:
     def __init__(self, words: List[str]):
@@ -10,6 +10,9 @@ class Crossword:
         # Generate the grid
         for word in words: 
             self.place_word(word=word)
+
+    def get_overlaps(self):
+        return sum(1 for pos in self.grid.keys() for neighbor in pos.neighbors_orthogonal() if not self.grid.get(neighbor, '') == '')
 
     def can_place(self, char: str, pos: Vec2D, overlap: Vec2D):
 
@@ -40,7 +43,6 @@ class Crossword:
             self.grid = new_grid
             return True
 
-        
         # Try Vertical
 
         new_grid = deepcopy(self.grid)
@@ -58,8 +60,15 @@ class Crossword:
         return False
 
     def place_word(self, word: str):
-        for word_i, new_char in enumerate(word):
-            for pos, char in self.grid.items():
+
+        items_list = list(self.grid.items())
+        random.shuffle(items_list)
+
+        word_list = list(enumerate(word))
+        random.shuffle(word_list)
+
+        for word_i, new_char in word_list:
+            for pos, char in items_list:
                 if new_char == char:
                     if self.try_place_word(word=word, pos=pos, word_i=word_i):
                         return
@@ -67,46 +76,85 @@ class Crossword:
         if self.grid == {}:
             self.try_place_word(word=word, pos=Vec2D(0, 0), word_i=0)
 
-    def draw_crossword(self):
-        # Find the max x and y values to size the grid
-        max_x = max(pos.x for pos in self.grid.keys())
-        min_x = min(pos.x for pos in self.grid.keys())
-        max_y = max(pos.y for pos in self.grid.keys())
-        min_y = min(pos.y for pos in self.grid.keys())
-        
-        size_x = max_x - min_x
-        size_y = max_y - min_y
+    
 
-        # Create the figure and axis
-        fig, ax = plt.subplots(figsize=(size_y, size_x))
+    def plot_crossword(self):
+
         
-        # Create grid with empty spaces
-        grid = np.full((size_x, size_y), '', dtype=str)
-        
-        # Populate grid with the crossword letters
-        for pos, letter in self.grid.items():
-            grid[pos.x][pos.y] = letter
-        
-        # Plot the crossword
-        ax.imshow(np.ones_like(grid, dtype=int), cmap='Greys', extent=(min_y, max_y, min_x, max_x))
-        
-        # Add letters to each grid cell
-        for pos, letter in self.grid.items():
-            ax.text(pos.y + 0.5, max_x - pos.x - 0.5, letter, va='center', ha='center', fontsize=16, family='monospace')
-        
-        # Hide axis ticks
-        ax.set_xticks(np.arange(max_y + 1))
-        ax.set_yticks(np.arange(max_x + 1))
-        ax.set_xticklabels([])
-        ax.set_yticklabels([])
-        ax.grid(True, which='both', color='black', linewidth=2)
-        
+        xs = [pos.x for pos in self.grid.keys()]
+        ys = [pos.y for pos in self.grid.keys()]
+        max_x, min_x = max(xs), min(xs)
+        max_y, min_y = max(ys), min(ys)
+
+        word_index = 1
+
+        rows = max_x - min_x + 1
+        cols = max_y - min_y + 1  
+
+        # Define the letters for the grid (with empty spaces for blacked-out cells)
+        letters = dict_map_to_list(self.grid)
+
+        # Create the plot
+        fig, ax = plt.subplots(figsize=(50, 50))
+
+        # Hide axes ticks and labels
+        ax.set_xticks([])
+        ax.set_yticks([])
+
+        # Draw the grid lines based on the presence of letters
+        for i in range(rows):
+            for j in range(cols):
+                cell_type = letters[i][j]
+                if cell_type == '':
+                    continue
+                elif cell_type == '_':
+                    rect = plt.Rectangle((j, rows - i - 1), 1, 1, facecolor='black', edgecolor='none')
+                    ax.add_patch(rect)
+                    rect = plt.Rectangle((j, rows - i - 1), 1, 1, facecolor='none', edgecolor='black', linewidth=1)
+                    ax.add_patch(rect)
+                else: 
+                    # Draw a rectangle with a border around the cell
+                    rect = plt.Rectangle((j, rows - i - 1), 1, 1, facecolor='none', edgecolor='black', linewidth=1)
+                    ax.add_patch(rect)
+                    # Place the letter in the center of the cell
+                    letter = letters[i][j]
+                    ax.text(j + 0.5, rows - i - 0.5, letter, fontsize=24, ha='center', va='center', color='black')
+
+                    if letter.isupper():
+                        ax.text(j + 0.05, rows - i - 0.9, str(word_index), fontsize=8, ha='left', va='top', color='black')
+                        word_index += 1
+
+
+        # Set equal aspect ratio to keep the cells square
+        ax.set_aspect('equal')
+
+        # Display the plot
+        plt.xlim(0, cols)
+        plt.ylim(0, rows)
+        plt.gca().invert_yaxis()  # Invert the y-axis to have (0,0) at the top-left corner
+        plt.show()
+        # Set equal aspect ratio
+        ax.set_aspect('equal')
+
+        # Display the grid
         plt.show()
 
 
-# List of words to be added to the crossword
-words = ['elephant', 'monkey', 'money', 'hat', 'airplane']
+def create_crossword():
 
-crossword = Crossword(words)
-crossword.draw_crossword()
-print_dict_map(crossword.grid)
+    # List of words to be added to the crossword
+    max_overlaps = 0
+    best_crossword = None
+    for _ in range(200):
+        words = ['Elephant_cage', 'Monkey', 'Money', 'Hat_of_pirate', 'Airplane', 'Hand', 'Fire_in_the_air', 'Queen', 'Rammstein', 'Foo_figters', 'Otis_redding', 'Smashing_pumpkins']
+        random.shuffle(words)
+        crossword = Crossword(words)
+        overlaps = crossword.get_overlaps()
+        if max_overlaps < overlaps:
+            max_overlaps = overlaps
+            best_crossword = crossword
+    best_crossword.plot_crossword()
+    print_dict_map(crossword.grid)
+
+
+create_crossword()

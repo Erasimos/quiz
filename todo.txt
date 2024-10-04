@@ -1,0 +1,8 @@
+crossword
+    * return blank and filled version
+
+quiz
+    * create quiz generate format/file structure
+    * automate quiz sheet generation
+    * automate quiz answer sheet generation
+    * automate quiz presentation slide generation

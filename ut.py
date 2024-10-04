@@ -70,3 +70,11 @@ def print_dict_map(dict_map: dict):
             tile = dict_map.get(Vec2D(x, y), '.')
             print(tile, end='')
         print()
+
+def dict_map_to_list(dict_map: dict):
+
+    xs, ys = [pos.x for pos in dict_map.keys()], [pos.y for pos in dict_map.keys()]
+    max_x, min_x = max(xs), min(xs)
+    max_y, min_y = max(ys), min(ys)
+
+    return [[dict_map.get(Vec2D(x, y), '') for y in range(min_y, max_y + 1)] for x in range(max_x, min_x - 1, -1)]

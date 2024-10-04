@@ -1,0 +1,9 @@
+title : The quiz title 1
+type : crossword
+question : The quiz body 1
+answer : The quiz answer 1
+
+title : The quiz title 2
+type : crossword
+question : The quiz body 2
+answer : The quiz answer 2

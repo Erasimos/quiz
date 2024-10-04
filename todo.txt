@@ -6,3 +6,4 @@ quiz
     * automate quiz sheet generation
     * automate quiz answer sheet generation
     * automate quiz presentation slide generation
+    * create python latex internal sheet representation and then convert pdf

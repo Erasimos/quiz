@@ -1,9 +1,11 @@
-title : The quiz title 1
-type : crossword
-question : The quiz body 1
-answer : The quiz answer 1
+title = The quiz title 1
+type = crossword
+body = The quiz body 1
+answer = The quiz answer 1
+points = 2
 
-title : The quiz title 2
-type : crossword
-question : The quiz body 2
-answer : The quiz answer 2
+title = The quiz title 2
+type = normal
+body = The quiz body 2
+answer = The quiz answer 2
+points = 4

@@ -1,30 +1,29 @@
 # Crossword
 type = crossword
-body = The Body
-words = [car, spaceship, david bowie]
-answer = Bruce Wayne
+answer = car, spaceship, david bowie
+theme = Bruce Wayne
 points = 2
 
 # Web
 type = web
-body = The Body 
 words = [car, spaceship]
 points = 4
 
 # Snapshots
 type = snapshots
-answer = [Costa Concordia - 1975, Titanic - 2008]
+answer = Costa Concordia - 1975, Titanic - 2008
 points = 10
 
 # Timeline
 type = timeline
-answer = [Jack Black - 1955, Kill Bill - 2002]
+answer = Jack Black - 1955, Kill Bill - 2002
 points = 20
 
 # Red Thread
 type = redthread
-body = 
-answer = 
+answer = minecraft, celsius, orange
+theme = Sweden
+points = 10
 
 # Guess Who
 type = guesswho

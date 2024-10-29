@@ -1,0 +1,13 @@
+Question Types:
+
+Crossword - crossword
+
+Timeline - timeline
+
+Guess Who - guesswho
+
+Red Thread - redthread
+
+The Web - web
+
+Snapshots - snapshots

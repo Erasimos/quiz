@@ -73,7 +73,7 @@ class Quiz:
         with open("src/templates/question_template.tex", "r") as template:
             latex_template = template.read()
 
-        question_sheet_pth = self.quiz_pth + '/question_sheet.txt'
+        question_sheet_pth = self.quiz_pth + '/question_sheet.tex'
         with open(question_sheet_pth, "w") as question_sheet:
 
             question_sheet.write(latex_head)

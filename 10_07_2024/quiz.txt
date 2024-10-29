@@ -1,11 +1,34 @@
-title = The quiz title 1
+# Crossword
 type = crossword
-body = The quiz body 1
-answer = The quiz answer 1
+body = The Body
+words = [car, spaceship, david bowie]
+answer = Bruce Wayne
 points = 2
 
-title = The quiz title 2
-type = normal
-body = The quiz body 2
-answer = The quiz answer 2
+# Web
+type = web
+body = The Body 
+words = [car, spaceship]
 points = 4
+
+# Snapshots
+type = snapshots
+answer = [Costa Concordia - 1975, Titanic - 2008]
+points = 10
+
+# Timeline
+type = timeline
+answer = [Jack Black - 1955, Kill Bill - 2002]
+points = 20
+
+# Red Thread
+type = redthread
+body = 
+answer = 
+
+# Guess Who
+type = guesswho
+answer = Afrodite
+points = 3
+
+
